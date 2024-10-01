@@ -1,25 +1,28 @@
+"use client"
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sign-in.css';
+import MainMenu from './MainMenu.jsx';
 
 const Login = () => {
-  // Estados para capturar el email y la contraseña
+  // Estados para capturar el email, la contraseña y el estado del login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   // Función que maneja el envío del formulario
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita el comportamiento por defecto del formulario
-    
+    event.preventDefault(); 
+
     // Datos que se enviarán a la API
     const loginData = {
       email: email,
-      password: password
+      password: password,
     };
 
     try {
       // Realiza la petición POST a la API
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch('https://diambupark-back.vercel.app/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,11 +32,11 @@ const Login = () => {
 
       // Manejo de la respuesta
       const data = await response.json();
-      
+
       if (response.ok) {
         // Si el login fue exitoso, manejar la respuesta
         console.log('Inicio de sesión exitoso', data);
-        // Puedes redirigir o almacenar el token según sea necesario
+        setIsLoggedIn(true); // Actualiza el estado para indicar que el login fue exitoso
       } else {
         // Si hubo un error, manejar el error
         console.error('Error en el inicio de sesión:', data.message);
@@ -43,6 +46,12 @@ const Login = () => {
     }
   };
 
+  // Si el usuario ha iniciado sesión, muestra el MainMenu
+  if (isLoggedIn) {
+    return <MainMenu />;
+  }
+
+  // Si el usuario no ha iniciado sesión, muestra el formulario de login
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-body-tertiary">
       <main className="form-signin">
