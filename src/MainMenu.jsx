@@ -1,26 +1,51 @@
+"use client"
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Para los componentes de Bootstrap
-import { Link } from 'react-router-dom'; // Importar el componente Link para navegación
+import { Link, useNavigate } from 'react-router-dom'; 
 
 const MainMenu = () => {
+  const token = localStorage.getItem('token'); // Verificar si hay un token
+  const navigate = useNavigate();
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login'); // Redirige a la página de login después de cerrar sesión
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url('../src/img/Background.webp')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh', // Para que cubra toda la pantalla
+      }}
+    >
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <nav className="navbar ">
         <div className="container">
           <a className="navbar-brand" href="#">
             <img src="../src/img/logo.jpeg" alt="" width="30" height="24" />
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
-            <Link to="/login" className="btn btn-outline-primary me-2">
-              Login
-            </Link>
-            <Link to="/registro" className="btn btn-outline-secondary me-2">
-              Registro
-            </Link>
-            <Link to="/contactenos" className="btn btn-outline-info">
+            {!token ? (
+              <>
+                <Link to="/login" className="btn btn-outline-dark me-2">
+                  Login
+                </Link>
+                <Link to="/registro" className="btn btn-outline-dark me-2">
+                  Registro
+                </Link>
+              </>
+            ) : (
+              <button className="btn btn-outline-dark me-2" onClick={handleLogout}>
+                Cerrar Sesión
+              </button>
+            )}
+            <Link to="/contactenos" className="btn btn-outline-dark me-2">
               Contáctenos
             </Link>
           </div>
@@ -82,12 +107,8 @@ const MainMenu = () => {
         <div className="row text-center">
           <div className="col-md-12">
             <h2 className="font-weight-bold">Parques</h2>
-            <p>
-              Parque de la 93
-            </p>
-            <p>
-              Parque Teusaquillo
-            </p>
+            <p>Parque de la 93</p>
+            <p>Parque Teusaquillo</p>
           </div>
         </div>
       </div>
