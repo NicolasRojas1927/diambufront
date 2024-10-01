@@ -5,8 +5,22 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+
+        try {
+            const response = await fetch('https://diambupark-back.vercel.app/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(RegisterData),
+            });
+    
+            const data = await response.json();
+        } catch (error) {
+            console.error('Error de conexión:', error);
+        }
     }
 
     const RegisterData = {
@@ -15,19 +29,7 @@ function Register() {
         password: password
     };
 
-    try {
-        const response = await fetch('', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(RegisterData),
-        });
-
-        const data = await response.json();
-    } catch () {
-
-    }
+    
 
     return (
 
@@ -49,18 +51,28 @@ function Register() {
                         placeholder="name@example.com"
                         onChange={(e) => setName(e.target.value)}
                     />
-                    <label htmlFor="floatingInput">Nombre Completo</label>
+                    <label htmlFor="floatingInput">Nombre</label>
                 </div>
-
                 <div className="form-floating">
                     <input
                         type="email"
                         className="form-control"
                         id="floatingInput"
                         placeholder="name@example.com"
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <label htmlFor="floatingInput">Apellido</label>
+                </div>
+
+                <div className="form-floating">
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="floatingInput2"
+                        placeholder="name@example.com"
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label htmlFor="floatingInput">Usuario</label>
+                    <label htmlFor="floatingInput3">Usuario</label>
                 </div>
                 <div className="form-floating">
                     <input
