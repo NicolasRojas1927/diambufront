@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './sign-in.css';
 
 function Register() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
@@ -16,8 +18,15 @@ function Register() {
                 },
                 body: JSON.stringify(RegisterData),
             });
-    
+
             const data = await response.json();
+
+            if (response.ok) {
+                console.log('Registro exitoso', data)
+            } else {
+                console.log('Error de Registro')
+            }
+
         } catch (error) {
             console.error('Error de conexión:', error);
         }
@@ -29,7 +38,7 @@ function Register() {
         password: password
     };
 
-    
+
 
     return (
 
@@ -92,9 +101,9 @@ function Register() {
                         value="remember-me"
                         id="flexCheckDefault"
                     />
-                    <label className="form-check-label" htmlFor="flexCheckDefault">
+                    {/* <label className="form-check-label" htmlFor="flexCheckDefault">
                         Recuerdame
-                    </label>
+                    </label> */}
                 </div>
                 <button className="btn btn-primary w-100 py-2" type="submit">
                     Registrarse
