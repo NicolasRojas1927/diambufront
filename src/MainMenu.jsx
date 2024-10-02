@@ -27,7 +27,7 @@ const MainMenu = () => {
       <nav className="navbar ">
         <div className="container">
           <a className="navbar-brand" href="#">
-            <img src="../src/img/logo.jpeg" alt="" width="30" height="24" />
+            <img src="../src/img/logoSF.webp" alt="" width="65" height="50" />
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
@@ -60,9 +60,9 @@ const MainMenu = () => {
           <div className="col-md-6">
             <img
               className="mb-4"
-              src="../src/img/logo.jpeg"
+              src="../src/img/logoSF.webp"
               alt=""
-              width="300"
+              width="350"
               height="300"
             />
           </div>

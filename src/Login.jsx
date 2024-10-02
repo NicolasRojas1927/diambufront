@@ -45,22 +45,29 @@ const Login = () => {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100 bg-body-tertiary"
+      className="d-flex justify-content-center align-items-center vh-100"
       style={{
         backgroundImage: `url('../src/img/Background.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
+      <nav className="navbar ">
+        <div className="container">
+          <a className="navbar-brand" href="/">
+            <img src="../src/img/logoSF.webp" alt="" width="65" height="50" />
+          </a>
+        </div>
+      </nav>
       <main className="form-signin">
         <form onSubmit={handleSubmit}>
           <center>
           <img
             className="mb-4"
-            src="../src/img/logo.jpeg"
-            alt="Bootstrap logo"
-            width="72"
-            height="57"
+            src="../src/img/logoSF.webp"
+            alt=""
+            width="105"
+            height="90"
           />
           </center>
           <h1 className="h3 mb-3 fw-normal">Inicio de Sesion</h1>
