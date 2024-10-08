@@ -44,62 +44,66 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center vh-100"
+    <div 
+      className="d-flex flex-column min-vh-100"
       style={{
-        backgroundImage: `url('../src/img/Background.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      <nav className="navbar ">
+      {/* Navbar fija arriba */}
+      <nav className="navbar navbar-light bg-dark fixed-top">
         <div className="container">
           <a className="navbar-brand" href="/">
-            <img src="../src/img/logoSF.webp" alt="" width="65" height="50" />
+            <img src="../src/img/logoSF.webp" alt="Logo" width="65" height="50" />
           </a>
         </div>
       </nav>
-      <main className="form-signin">
-        <form onSubmit={handleSubmit}>
-          <center>
-          <img
-            className="mb-4"
-            src="../src/img/logoSF.webp"
-            alt=""
-            width="105"
-            height="90"
-          />
-          </center>
-          <h1 className="h3 mb-3 fw-normal">Inicio de Sesion</h1>
 
-          <div className="form-floating">
-            <input
-              type="email"
-              className="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="floatingInput">Usuario</label>
-          </div>
-          <div className="form-floating">
-            <input
-              type="password"
-              className="form-control"
-              id="floatingPassword"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label htmlFor="floatingPassword">Contraseña</label>
-          </div>
-          <br />
-          <button className="btn btn-dark w-100 py-2" type="submit">
-            Iniciar Sesion
-          </button>
-        </form>
-      </main>
+      {/* Formulario centrado */}
+      <div className="d-flex justify-content-center align-items-center flex-grow-1 bg-success bg-opacity-25">
+        <main className="form-signin">
+          <form onSubmit={handleSubmit}>
+            <center>
+              <img
+                className="mb-4"
+                src="../src/img/logoSF.webp"
+                alt="Logo"
+                width="105"
+                height="90"
+              />
+            </center>
+            <h1 className="h3 mb-3 fw-normal">Inicio de Sesión</h1>
+
+            <div className="form-floating mb-3">
+              <input
+                type="email"
+                className="form-control"
+                id="floatingInput"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label htmlFor="floatingInput">Usuario</label>
+            </div>
+            <div className="form-floating mb-3">
+              <input
+                type="password"
+                className="form-control"
+                id="floatingPassword"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label htmlFor="floatingPassword">Contraseña</label>
+            </div>
+
+            <button className="btn btn-dark w-100 py-2" type="submit">
+              Iniciar Sesión
+            </button>
+          </form>
+        </main>
+      </div>
     </div>
   );
 };

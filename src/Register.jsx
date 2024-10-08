@@ -50,8 +50,8 @@ function Register() {
             <div className="p-1 container-fluid d-flex justify-content-center bg-black">
                 <img
                     className="align-items-center"
-                    src="../src/img/logo.jpeg"
-                    alt="Bootstrap logo"
+                    src="../src/img/Logo.webp"
+                    alt="Bootstrap Logo"
                     width="80"
                     height="70"
                 />

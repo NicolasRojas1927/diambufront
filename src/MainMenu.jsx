@@ -19,12 +19,12 @@ const MainMenu = () => {
   };
 
   return (
-    <div>
+    <div className="bg-success bg-opacity-25">
       {/* Navbar */}
-      <nav className="navbar navbar-expand-lg">
+      <nav className="navbar navbar-expand-lg bg-dark">
         <div className="container">
           <a className="navbar-brand" href="#">
-            <img src="../src/img/logoSF.webp" alt="" width="30" height="24" />
+            <img src="../src/img/logoSF.webp" alt="" width="45" height="30" />
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
@@ -55,7 +55,7 @@ const MainMenu = () => {
               className="mb-4"
               src="../src/img/logoSF.webp"
               alt=""
-              width="350"
+              width="380"
               height="300"
             />
           </div>

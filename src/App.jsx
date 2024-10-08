@@ -6,6 +6,8 @@ import Register from './Register';
 
 function App() {
   return (
+    <>
+    
     <Router>
       <Routes>
         <Route path="/" element={<MainMenu />} />
@@ -15,6 +17,8 @@ function App() {
         <Route path="/contactenos" element={<div>Contáctenos Page</div>} />
       </Routes>
     </Router>
+    
+    </>
   );
 }
 
