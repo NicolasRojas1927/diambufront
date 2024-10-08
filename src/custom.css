@@ -41,3 +41,8 @@
     border-color: var(--info-color);
     color: var(--info-color);
   }
+
+  .bg-success-subtle-opacity {
+    background-color: rgba(212, 237, 218, 0.25) !important; /* Verde con opacidad del 25% */
+  }
+  
