@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { Link } from 'react-router-dom'; // Importa el componente Link para la navegación
+import { Link, useNavigate  } from 'react-router-dom'; // Importa el componente Link para la navegación
 
 const MainMenu = () => {
   const [theme, setTheme] = useState('light');
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   // Cambia el tema cuando el valor de theme cambia
   useEffect(() => {
@@ -18,6 +20,12 @@ const MainMenu = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login'); // Redirige a la página de login después de cerrar sesión
+  };
+
+
   return (
     <div className="bg-success bg-opacity-25">
       {/* Navbar */}
@@ -28,12 +36,20 @@ const MainMenu = () => {
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
-            <Link to="/login" className="btn btn-outline-primary me-2">
-              Login
-            </Link>
-            <Link to="/registro" className="btn btn-outline-secondary me-2">
-              Registro
-            </Link>
+          {!token ? (
+              <>
+                <Link to="/login" className="btn btn-outline-primary me-2">
+                  Login
+                </Link>
+                <Link to="/registro" className="btn btn-outline-secondary me-2">
+                  Registro
+                </Link>
+              </>
+            ) : (
+              <button className="btn btn-outline-primary me-2" onClick={handleLogout}>
+                Cerrar Sesión
+              </button>
+            )}
             <Link to="/contactenos" className="btn btn-outline-info">
               Contáctenos
             </Link>
@@ -61,9 +77,8 @@ const MainMenu = () => {
           </div>
           <div className="col-md-6">
             <h2 className="font-weight-bold">DIAMBUPARK</h2>
-            <p>
-              Tu Guía en la Nube para Deporte y Ocio al Aire Libre en Bogotá.
-              Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá...
+            <p style={{ textAlign: 'left' }}>
+            Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
             </p>
           </div>
         </div>
@@ -74,13 +89,13 @@ const MainMenu = () => {
             <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
               <div className="carousel-inner">
                 <div className="carousel-item active">
-                  <img src="../src/img/Paque93.webp" className="d-block w-100 h-100" alt="..." />
+                  <img src="../src/img/Paque93.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
                 <div className="carousel-item">
-                  <img src="../src/img/Paque932.webp" className="d-block w-100 h-100" alt="..." />
+                  <img src="../src/img/Paque932.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
                 <div className="carousel-item">
-                  <img src="../src/img/Paque933.webp" className="d-block w-100 h-100" alt="..." />
+                  <img src="../src/img/Paque933.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
               </div>
               <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -94,6 +109,7 @@ const MainMenu = () => {
             </div>
           </div>
         </div>
+
 
         <br />
 

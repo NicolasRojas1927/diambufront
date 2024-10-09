@@ -1,17 +1,27 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './custom.css'; // Importa el archivo de estilos personalizado
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './sign-in.css';
-import { useNavigate } from 'react-router-dom'; // Para redirigir al MainMenu
+import { useNavigate, Link } from 'react-router-dom'; // Para redirigir al MainMenu
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Para manejar los mensajes de error
   const navigate = useNavigate();  // Hook para redirigir
+  const [theme, setTheme] = useState('light');
 
   // Función que maneja el envío del formulario
   const handleSubmit = async (event) => {
     event.preventDefault(); 
+
+    if (!email || !password) {
+      // Validación de campos vacíos
+      setErrorMessage('Por favor, complete todos los campos.');
+      return;
+    }
 
     const loginData = {
       email: email,
@@ -31,16 +41,24 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Guarda el token en el localStorage
         localStorage.setItem('token', data.token);
-        // Redirige al MainMenu
         navigate('/');
       } else {
-        console.error('Error en el inicio de sesión:', data.message);
+        setErrorMessage('Usuario o contraseña incorrectos.');
       }
     } catch (error) {
       console.error('Error de conexión:', error);
+      setErrorMessage('Error en la conexión. Intente nuevamente más tarde.');
     }
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Alterna entre los temas claro y oscuro
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -58,6 +76,18 @@ const Login = () => {
             <img src="../src/img/logoSF.webp" alt="Logo" width="65" height="50" />
           </a>
         </div>
+        <div className="ms-auto">
+          <Link to="/registro" className="btn btn-outline-secondary me-2">
+              Registro
+          </Link>
+          <Link to="/contactenos" className="btn btn-outline-info">
+              Contáctenos
+          </Link>
+          {/* Botón para alternar el modo claro/oscuro */}
+          <button className="btn btn-outline-secondary ms-3" onClick={toggleTheme}>
+            {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+          </button>
+        </div>
       </nav>
 
       {/* Formulario centrado */}
@@ -69,11 +99,14 @@ const Login = () => {
                 className="mb-4"
                 src="../src/img/logoSF.webp"
                 alt="Logo"
-                width="105"
-                height="90"
+                width="200"
+                height="150"
               />
             </center>
             <h1 className="h3 mb-3 fw-normal">Inicio de Sesión</h1>
+
+            {/* Mostrar mensaje de error si lo hay */}
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
             <div className="form-floating mb-3">
               <input
@@ -101,6 +134,11 @@ const Login = () => {
             <button className="btn btn-dark w-100 py-2" type="submit">
               Iniciar Sesión
             </button>
+
+            {/* Botón Olvidé mi contraseña */}
+            <Link to="/recuperar-contrasena" className="btn btn-link mt-3 w-100">
+              Olvidé mi contraseña
+            </Link>
           </form>
         </main>
       </div>
@@ -109,3 +147,4 @@ const Login = () => {
 };
 
 export default Login;
+

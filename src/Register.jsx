@@ -1,6 +1,9 @@
-import { useState } from 'react';
+"use client"
+import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './custom.css';
 import './sign-in.css';
+import { Link } from 'react-router-dom'; // Para redirigir al MainMenu
 
 function Register() {
     const [name, setName] = useState('');
@@ -8,6 +11,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmpass, setConfirmPass] = useState('');
+    const [theme, setTheme] = useState('light');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,21 +47,42 @@ function Register() {
         confirmpass: confirmpass
     };
 
+    // Cambia el tema cuando el valor de theme cambia
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Alterna entre los temas claro y oscuro
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
 
 
     return (
-        <div className=" justify-content-center vh-100 bg-success text-dark bg-opacity-25" >
-            <div className="p-1 container-fluid d-flex justify-content-center bg-black">
-                <img
-                    className="align-items-center"
-                    src="../src/img/Logo.webp"
-                    alt="Bootstrap Logo"
-                    width="80"
-                    height="70"
-                />
-                <span className="display-5 fw-bold text-success"
-                >DiambuPark</span>
-            </div>
+        <div className=" justify-content-center vh-100 bg-success bg-opacity-25" 
+        style={{
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}>
+            <nav className="navbar navbar-expand-lg bg-dark">
+                <div className="container">
+                <a className="navbar-brand" href="/">
+                    <img src="../src/img/logoSF.webp" alt="" width="45" height="30" />
+                </a>
+                {/* Botones alineados a la derecha */}
+                <div className="ms-auto">
+                
+                    <Link to="/contactenos" className="btn btn-outline-info">
+                    Contáctenos
+                    </Link>
+                    {/* Botón para alternar el modo claro/oscuro */}
+                    <button className="btn btn-outline-secondary ms-3" onClick={toggleTheme}>
+                    {theme === 'light' ? 'Modo Oscuro' : 'Modo Claro'}
+                    </button>
+                </div>
+                </div>
+            </nav>
             <main className="form-signin d-flex justify-content-center m-5 p-5">
                 <form onSubmit={handleSubmit} className="w-25">
 
