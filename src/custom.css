@@ -46,3 +46,9 @@
     background-color: rgba(212, 237, 218, 0.25) !important; /* Verde con opacidad del 25% */
   }
   
+  .carousel-inner img {
+    width: 100%; /* Ajusta el ancho de la imagen al 100% del contenedor */
+    height: 600px; /* Ajusta la altura a un valor fijo */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsión */
+  }
+  
