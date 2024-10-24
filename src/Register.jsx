@@ -7,6 +7,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmpass, setConfirmPass] = useState('');
+    const [securityquest, setSecurityquest] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,7 +23,8 @@ function Register() {
             lastname: lastname,
             email: email,
             password: password,
-            confirmpass: confirmpass
+            confirmpass: confirmpass,
+            securityquest: securityquest,
         };
 
         try {
@@ -62,7 +64,7 @@ function Register() {
                 >DiambuPark</span>
             </div>
             <div className="d-flex justify-content-center align-items-center vh-100 bg-success text-dark bg-opacity-25" >
-                <main className="form-signin d-flex justify-content-center  w-25">
+                <main className="form-signin d-flex justify-content-center w-25">
                     <form onSubmit={handleSubmit} className="w-100">
 
                         <h1 className="h3 mb-3 fw-normal text-center fw-bold">Registro</h1>
@@ -95,7 +97,7 @@ function Register() {
                                 placeholder="name@example.com"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <label htmlFor="floatingInput3">Email*</label>
+                            <label htmlFor="floatingInput">Email*</label>
                         </div>
                         <div className="form-floating mb-2">
                             <input
@@ -116,6 +118,19 @@ function Register() {
                                 onChange={(e) => setConfirmPass(e.target.value)}
                             />
                             <label htmlFor="floatingPassword">Confirmar Contraseña*</label>
+                        </div>
+                        <div className="mb-2 fw-bold">
+                            <span>Pregunta de seguridad en caso de olvidar la contraseña</span>
+                        </div>
+                        <div className="form-floating mb-2">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="floatingInput3"
+                                placeholder="name@example.com"
+                                onChange={(e) => setSecurityquest(e.target.value)}
+                            />
+                            <label htmlFor="floatingInput">Nombre de tu primera mascota*</label>
                         </div>
                         <button className="btn btn-success w-100 py-2 fw-bold" type="submit">
                             Registrarse
