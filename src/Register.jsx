@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 "use client"
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -76,21 +74,6 @@ function Register() {
 
 
     return (
-        <div>
-            <div className="d-flex container-fluid justify-content-center bg-black">
-                <img
-                    className="align-items-center"
-                    src="../src/img/logo.jpeg"
-                    alt="Bootstrap logo"
-                    width="80"
-                    height="70"
-                />
-                <span className="display-5 fw-bold text-success"
-                >DiambuPark</span>
-            </div>
-            <div className="d-flex justify-content-center align-items-center vh-100 bg-success text-dark bg-opacity-25" >
-                <main className="form-signin d-flex justify-content-center  w-25">
-                    <form onSubmit={handleSubmit} className="w-100">
         <div className=" justify-content-center vh-100 bg-success bg-opacity-25" 
         style={{
             backgroundSize: 'cover',
@@ -181,8 +164,6 @@ function Register() {
                     </form>
                 </main>
             </div>
-        </div>
-
     );
 };
 
