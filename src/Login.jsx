@@ -138,7 +138,7 @@ const Login = () => {
             </button>
 
             {/* Botón Olvidé mi contraseña */}
-            <Link to="/recuperar-contrasena" className="btn btn-link mt-3 w-100">
+            <Link to="/forgetpassword" className="btn btn-link mt-3 w-100">
               Olvidé mi contraseña
             </Link>
           </form>
