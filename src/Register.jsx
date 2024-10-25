@@ -152,6 +152,16 @@ function Register() {
                             />
                             <label htmlFor="floatingPassword">Confirmar Contraseña*</label>
                         </div>
+                        <div className="form-floating mb-2">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="floatingInput3"
+                                placeholder="name@example.com"
+                                onChange={(e) => setSecurityquest(e.target.value)}
+                            />
+                            <label htmlFor="floatingInput">Nombre de tu primera mascota*</label>
+                        </div>
                         <button className="btn btn-success w-100 py-2 fw-bold" type="submit">
                             Registrarse
                         </button>
