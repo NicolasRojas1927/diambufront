@@ -6,9 +6,25 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate  } from 'react-router-dom'; // Importa el componente Link para la navegación
 
 const MainMenu = () => {
+  const [parks, setParks] = useState([]);
   const [theme, setTheme] = useState('light');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchParks = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/parks?limit=20');
+        const data = await response.json();
+        if (data.ok) {
+          setParks(data.parks); // Almacenar los parques en el estado
+        }
+      } catch (error) {
+        console.error('Error al obtener parques:', error);
+      }
+    };
+    fetchParks();
+  }, []);
 
   // Cambia el tema cuando el valor de theme cambia
   useEffect(() => {
@@ -23,6 +39,10 @@ const MainMenu = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login'); // Redirige a la página de login después de cerrar sesión
+  };
+
+  const handleParkClick = (park) => {
+    navigate('/parque', { state: { park } }); // Navegar a ParkDetail con los datos del parque seleccionado
   };
 
 
@@ -89,13 +109,13 @@ const MainMenu = () => {
             <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
               <div className="carousel-inner">
                 <div className="carousel-item active">
-                  <img src="../src/img/Paque93.webp" className="d-block w-100 img-fluid" alt="..." />
+                  <img src="https://i.ibb.co/rZS9pcS/ptimiza.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
                 <div className="carousel-item">
-                  <img src="../src/img/Paque932.webp" className="d-block w-100 img-fluid" alt="..." />
+                  <img src="https://i.ibb.co/JrzkR1K/PTimiza2.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
                 <div className="carousel-item">
-                  <img src="../src/img/Paque933.webp" className="d-block w-100 img-fluid" alt="..." />
+                  <img src="https://i.ibb.co/nr7Tn6R/PTimiza3.webp" className="d-block w-100 img-fluid" alt="..." />
                 </div>
               </div>
               <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -110,20 +130,27 @@ const MainMenu = () => {
           </div>
         </div>
 
-
         <br />
 
-        <div className="row text-center">
-          <div className="col-md-12">
-            <h2 className="font-weight-bold">Parques</h2>
-            <p>Parque de la 93</p>
-            <p>Parque Teusaquillo</p>
-            <p>Parque Metropolitano Simón Bolívar</p>
-            <p>Parque de Usaquén</p>
-            <p>Parque de los Novios</p>
-            <p>Parque Timiza</p>
+        <div className="col-md-10 text-center">
+          <h2 className="font-weight-bold mb-4">Parques de Bogotá</h2>
+          <div className="d-flex flex-wrap justify-content-center gap-3">
+            {parks.map((park) => (
+              <div
+                key={park._id}
+                className="card shadow-sm p-3 m-2 border-0 text-dark font-weight-bold text-center"
+                style={{ width: "14rem", borderRadius: "12px" }}
+                onClick={() => handleParkClick(park)} // Pasar el parque seleccionado al hacer clic
+              >
+                <div className="card-body">
+                  <p className="card-text text-dark font-weight-bold">{park.name}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+        <br /><br /><br /><br />
+
       </div>
     </div>
   );

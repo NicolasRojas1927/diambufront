@@ -5,6 +5,7 @@ import Login from './Login';        // Importa el componente de Login
 import Register from './Register';
 import Contact from './Contact';
 import ForgetPassword from './ForgetPassword';
+import ParkDetail from './ParkDetail';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/registro" element={<Register />} />
         <Route path="/contactenos" element={<Contact />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/parque" element={<ParkDetail />} />
       </Routes>
     </Router>
     

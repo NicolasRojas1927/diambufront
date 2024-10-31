@@ -43,6 +43,8 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', data.user.email);
+        localStorage.setItem('question', data.user.question);
+        localStorage.setItem('answer', data.user.answer);
         console.log(data)
         navigate('/');
       } else {

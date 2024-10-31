@@ -6,8 +6,55 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './sign-in.css';
 
 const ForgetPassword = () => {
-
+    const [password, setPassword] = useState('');
+    const [confirmpass, setConfirmPass] = useState('');
+    const [email, setEmail] = useState('');
+    const [answer, setAnswer] = useState('');
     const [theme, setTheme] = useState('light');
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+
+      if (password !== confirmpass) {
+          alert('Las contraseñas no coinciden, verifique nuevamente.');
+          return;
+      }
+
+      const Requisites = {
+          email: email,
+          newPassword: confirmpass,
+          answer: answer
+      };
+
+      try {
+          const response = await fetch('http://localhost:8080/api/auth/reset-password', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(Requisites),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              console.log('Cambio de contraseña exitoso', data)
+          } else {
+              console.log('Error de cambio de contraseña', data.errors[0].msg)
+              alert(`${data.errors[0].msg}`);
+          }
+
+      } catch (error) {
+          console.error('Error de conexión:', error);
+      }
+  }
+
+  const Requisites = {
+    email: email,
+    newPassword: password,
+    answer: answer
+  };
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -41,30 +88,27 @@ const ForgetPassword = () => {
       </nav>
 
       <main className="form-signin d-flex justify-content-center m-5 p-5">
-                <form className="w-25">
+                <form onSubmit={handleSubmit} className="w-25">
 
                 <h1 className="h3 mb-3 fw-normal mt-5 text-center fw-bold">Reestablece tu contraseña</h1>
-                    <div className="form-floating mb-3">
-                        <select
-                            className="form-control"
-                            id="floatingInput"
-                            placeholder=""
-                            onChange={(e) => setName(e.target.value)}
-                        >
-                            <option value="">Escoge la pregunta de seguridad</option>
-                            <option value="mother's-maiden-name">¿Cuál es el apellido de soltera de tu madre?</option>
-                            <option value="first-pet-name">¿Cuál fue el nombre de tu primera mascota?</option>
-                            <option value="first-school-name">¿Cuál fue el nombre de tu primera escuela?</option>
-                        </select>
-                    </div>
-
+                    <div className="form-floating mb-2">
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="floatingInput2"
+                                placeholder="name@example.com"
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <label htmlFor="floatingInput3">Email*</label>
+                      </div>
+                        
                     <div className="form-floating mb-3">
                         <input
                             type="text"
                             className="form-control"
                             id="floatingInput1"
                             placeholder="Respuesta de la Pregunta de Seguridad"
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => setAnswer(e.target.value)}
                         />
                         <label htmlFor="floatingInput">Respuesta de la pregunta</label>
                     </div>
@@ -75,7 +119,7 @@ const ForgetPassword = () => {
                             className="form-control"
                             id="floatingInput2"
                             placeholder="Nueva Contraseña"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <label htmlFor="floatingInput3">Nueva Contraseña</label>
                     </div>
@@ -85,7 +129,7 @@ const ForgetPassword = () => {
                             className="form-control"
                             id="floatingPassword"
                             placeholder="Password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setConfirmPass(e.target.value)}
                         />
                         <label htmlFor="floatingPassword">Confirmar Contraseña</label>
                     </div>
