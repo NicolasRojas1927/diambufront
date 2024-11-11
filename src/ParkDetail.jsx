@@ -4,6 +4,8 @@ import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useLocation, Link, useNavigate  } from 'react-router-dom';
+import { FaStar } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 
 const ParkDetail = () => {
     const { state } = useLocation();
@@ -11,6 +13,56 @@ const ParkDetail = () => {
     const [theme, setTheme] = useState('light');
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
+    const [rating, setRating] = useState(null);
+    const [hover, setHover] = useState(null);
+    const [comment, setComment] = useState('');
+
+    const sendSuccess = (message) => toast.success(message);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!token) {
+            toast.error("Necesita estar logueado para realizar esta acción");
+            return; // Detener la ejecución de la función si no hay token
+        }
+
+        const RegisterData = {
+            parkId : park._id,
+            score : rating,
+            comment : comment
+        };
+
+        try {
+            const response = await fetch('https://diambupark-back.vercel.app/api/ratings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-token' : token ,
+                },
+                body: JSON.stringify(RegisterData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                sendSuccess('Comentario Exitoso')
+                console.log('Comentario Exitoso', data)
+            } else {
+                toast.error('Error de Comentario', data.errors[0].msg)
+            }
+
+        } catch (error) {
+            toast.error('Error de conexión:', error);
+        }
+    }
+
+    const RegisterData = {
+      parkId : park._id,
+      score : rating,
+      comment : comment
+    };
+
     
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -27,6 +79,12 @@ const ParkDetail = () => {
       };
 
     return (
+      <>
+        <Toaster
+            toastOptions={{
+                className: "text-sm",
+            }}
+         />
         <div className="bg-success bg-opacity-25">
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg bg-dark">
@@ -38,19 +96,19 @@ const ParkDetail = () => {
           <div className="ms-auto">
           {!token ? (
               <>
-                <Link to="/login" className="btn btn-outline-primary me-2">
+                <Link to="/login" className="btn btn-outline-secondary ms-3">
                   Login
                 </Link>
-                <Link to="/registro" className="btn btn-outline-secondary me-2">
+                <Link to="/registro" className="btn btn-outline-secondary ms-3">
                   Registro
                 </Link>
               </>
             ) : (
-              <button className="btn btn-outline-primary me-2" onClick={handleLogout}>
+              <button className="btn btn-outline-secondary ms-3" onClick={handleLogout}>
                 Cerrar Sesión
               </button>
             )}
-            <Link to="/contactenos" className="btn btn-outline-info">
+            <Link to="/contactenos" className="btn btn-outline-secondary ms-3">
               Contáctenos
             </Link>
             {/* Botón para alternar el modo claro/oscuro */}
@@ -64,11 +122,11 @@ const ParkDetail = () => {
       <br />
 
       {/* Grid de contenido */}
-      <div className="container">
-                <div className="row text-center">
-                    <div className="col-md-6">
+      <div className="container my-5 p-4 rounded-3">
+        <div className="row align-items-center text-center text-md-start">
+          <div className="col-md-6">
                         <img
-                            className="mb-4"
+                            className="mb-4 img-fluid shadow rounded-3"
                             src={park.images ? park.images[0] : '../src/img/default_park.jpg'}
                             alt=""
                             width="380"
@@ -76,15 +134,15 @@ const ParkDetail = () => {
                         />
                     </div>
                     <div className="col-md-6">
-                        <h2 className="font-weight-bold">{park.name || "Parque"}</h2>
-                        <h5 className="">{park.address || "Dirección no disponible"}</h5>
-                        <br />
-                        <p style={{ textAlign: 'left' }}>{park.description || "Descripción no disponible"}</p>
-                        <p style={{ textAlign: 'left' }}>Latitud: {park.latitude || "No disponible"}</p>
-                        <p style={{ textAlign: 'left' }}>Longitud: {park.longitude || "No disponible"}</p>
-                        <p style={{ textAlign: 'left' }}>Localidad: {park.locality?.name || "No disponible"}</p>
+                      <h2 className="font-weight-bold">{park.name || "Parque"}</h2>
+                      <p><i className="fas fa-map-marker-alt text-danger"></i> {park.address || "Dirección no disponible"}</p>
+                      <p>{park.description || "Descripción no disponible"}</p>
+                      <p ><i className="fas fa-globe"></i> Latitud: {park.latitude || "No disponible"}</p>
+                      <p><i className="fas fa-globe"></i> Longitud: {park.longitude || "No disponible"}</p>
+                      <p><i className="fas fa-city"></i> Localidad: {park.locality?.name || "No disponible"}</p>
                     </div>
                 </div>
+            </div>
 
                 <br />
 
@@ -109,7 +167,10 @@ const ParkDetail = () => {
                             <div className="carousel-inner">
                                 {park.images?.map((image, index) => (
                                     <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                        <img src={image} className="d-block w-100 img-fluid" alt="Imagen del parque" />
+                                        <img
+                                         src={image} className="d-block w-75 mx-auto img-fluid"
+                                         style={{ maxWidth: '400px', height: '400px' }}
+                                         />
                                     </div>
                                 ))}
                             </div>
@@ -127,25 +188,51 @@ const ParkDetail = () => {
 
                 <br />
 
-                <div className="row">
-                    <div className="col-md-12">
-                        <h4 className="font-weight-bold mt-5">Comentarios</h4>
-                        <form >
-                            <div className="form-group">
-                                <textarea
-                                    className="form-control border border-success shadow-sm rounded-3 p-3 mt-2"
-                                    rows="4"
-                                    placeholder="Escribe tu comentario aquí..."
-                                    required
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary mt-3 px-4">Enviar</button>
-                        </form>
-                    </div>
-                </div>
+                <div className="container my-5">
+                  <h4 className="font-weight-bold mb-4 text-center">Comentarios</h4>
+                  <form onSubmit={handleSubmit} className="card p-4 shadow-sm bg-opacity-25" style={{ backgroundColor: '#211f1f' }}>
+                      <div className="form-group mb-3">
+                          <label className="d-block mb-2 text-center font-weight-bold">Calificación</label>
+                          <div className="d-flex justify-content-center mb-3">
+                              {[...Array(5)].map((star, index) => {
+                                  const ratingValue = index + 1;
+                                  return (
+                                      <label key={index}>
+                                          <input
+                                              type="radio"
+                                              name="rating"
+                                              value={ratingValue}
+                                              onClick={() => setRating(ratingValue)}
+                                              style={{ display: 'none' }}
+                                          />
+                                          <FaStar
+                                              size={30}
+                                              color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+                                              className="star"
+                                              onMouseEnter={() => setHover(ratingValue)}
+                                              onMouseLeave={() => setHover(null)}
+                                              style={{ cursor: 'pointer', marginRight: '4px' }}
+                                          />
+                                      </label>
+                                  );
+                              })}
+                          </div>
+                      </div>
+
+                      <div className="form-group mb-3">
+                          <textarea
+                              className="form-control border border-info shadow-sm rounded-3 p-3"
+                              placeholder="Escribe tu comentario aquí..."
+                              onChange={(e) => setComment(e.target.value)}
+                              required
+                          />
+                      </div>
+                      <button type="submit" className="btn btn-success w-100 py-2 mt-2 fw-semibold">Enviar</button>
+                  </form>
+              </div>
                 <br /><br /><br />
             </div>
-        </div>
+            </>
     );
 };
 

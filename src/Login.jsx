@@ -5,6 +5,7 @@ import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './sign-in.css';
 import { useNavigate, Link } from 'react-router-dom'; // Para redirigir al MainMenu
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState(''); // Para manejar los mensajes de error
   const navigate = useNavigate();  // Hook para redirigir
   const [theme, setTheme] = useState('light');
+
+  const sendSuccess = (message) => toast.success(message);
 
   // Función que maneja el envío del formulario
   const handleSubmit = async (event) => {
@@ -41,14 +44,17 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        sendSuccess("Bienvenido");
         localStorage.setItem('token', data.token);
         localStorage.setItem('email', data.user.email);
         localStorage.setItem('question', data.user.question);
         localStorage.setItem('answer', data.user.answer);
         console.log(data)
-        navigate('/');
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
       } else {
-        setErrorMessage('Usuario o contraseña incorrectos.');
+        toast.error("Usuario o Contraseña Incorrectos");
       }
     } catch (error) {
       console.error('Error de conexión:', error);
@@ -66,6 +72,12 @@ const Login = () => {
   };
 
   return (
+    <>
+    <Toaster
+        toastOptions={{
+          className: "text-sm",
+        }}
+      />
     <div 
       className="d-flex flex-column min-vh-100"
       style={{
@@ -74,17 +86,17 @@ const Login = () => {
       }}
     >
       {/* Navbar fija arriba */}
-      <nav className="navbar navbar-light bg-dark fixed-top">
+      <nav className="navbar navbar-expand-lg bg-dark">
         <div className="container">
           <a className="navbar-brand" href="/">
             <img src="../src/img/logoSF.webp" alt="Logo" width="65" height="50" />
           </a>
         </div>
         <div className="ms-auto">
-          <Link to="/registro" className="btn btn-outline-secondary me-2">
+          <Link to="/registro" className="btn btn-outline-secondary ms-3">
               Registro
           </Link>
-          <Link to="/contactenos" className="btn btn-outline-info">
+          <Link to="/contactenos" className="btn btn-outline-secondary ms-3">
               Contáctenos
           </Link>
           {/* Botón para alternar el modo claro/oscuro */}
@@ -140,13 +152,14 @@ const Login = () => {
             </button>
 
             {/* Botón Olvidé mi contraseña */}
-            <Link to="/forgetpassword" className="btn btn-link mt-3 w-100">
+            <Link to="/forgetpassword" className="btn mt-3 w-100">
               Olvidé mi contraseña
             </Link>
           </form>
         </main>
       </div>
     </div>
+    </>
   );
 };
 

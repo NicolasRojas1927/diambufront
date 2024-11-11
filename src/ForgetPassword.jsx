@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './sign-in.css';
+import toast, { Toaster } from 'react-hot-toast';
+import { Toast } from 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const ForgetPassword = () => {
     const [password, setPassword] = useState('');
@@ -11,13 +13,14 @@ const ForgetPassword = () => {
     const [email, setEmail] = useState('');
     const [answer, setAnswer] = useState('');
     const [theme, setTheme] = useState('light');
+    const sendSuccess = (message) => toast.success(message);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
 
 
       if (password !== confirmpass) {
-          alert('Las contraseñas no coinciden, verifique nuevamente.');
+          toast.error('Las contraseñas no coinciden, verifique nuevamente.');
           return;
       }
 
@@ -28,7 +31,7 @@ const ForgetPassword = () => {
       };
 
       try {
-          const response = await fetch('http://localhost:8080/api/auth/reset-password', {
+          const response = await fetch('https://diambupark-back.vercel.app/api/auth/reset-password', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -39,13 +42,14 @@ const ForgetPassword = () => {
           const data = await response.json();
 
           if (response.ok) {
+              sendSuccess("Cambio Exitoso");
               console.log('Cambio de contraseña exitoso', data)
           } else {
-              console.log('Error de cambio de contraseña', data.errors[0].msg)
-              alert(`${data.errors[0].msg}`);
+              toast.error('Error de cambio de contraseña', data.errors[0].msg)
           }
 
       } catch (error) {
+        toast.error(error);
           console.error('Error de conexión:', error);
       }
   }
@@ -66,6 +70,12 @@ const ForgetPassword = () => {
   };
 
   return (
+    <>
+    <Toaster
+        toastOptions={{
+          className: "text-sm",
+        }}
+      />
     <div 
       className="justify-content-center vh-100 bg-success bg-opacity-25"
       style={{
@@ -77,7 +87,7 @@ const ForgetPassword = () => {
       <nav className="navbar navbar-light bg-dark fixed-top">
         <div className="container">
           <a className="navbar-brand" href="/">
-            <img src="../src/img/logoSF.webp" alt="Logo" width="65" height="50" />
+            <img src="../src/img/logoSF.webp" alt="Logo" width="45" height="30" />
           </a>
         </div>
         <div className="ms-auto">
@@ -146,6 +156,7 @@ const ForgetPassword = () => {
             </main>
       
     </div>
+    </>
   );
 
 };

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css';
 import './sign-in.css';
 import { Link } from 'react-router-dom'; // Para redirigir al MainMenu
+import toast, { Toaster } from 'react-hot-toast';
 
 function Register() {
     const [name, setName] = useState('');
@@ -15,12 +16,14 @@ function Register() {
     const [selectedQuestion, setSelectedQuestion] = useState('');
     const [theme, setTheme] = useState('light');
 
+    const sendSuccess = (message) => toast.success(message);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
 
         if (password !== confirmpass) {
-            alert('Las contraseñas no coinciden, verifique nuevamente.');
+            toast.error('Las contraseñas no coinciden, verifique nuevamente.');
             return;
         }
 
@@ -35,7 +38,7 @@ function Register() {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/users', {
+            const response = await fetch('https://diambupark-back.vercel.app/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,14 +49,14 @@ function Register() {
             const data = await response.json();
 
             if (response.ok) {
+                sendSuccess('Registro exitoso')
                 console.log('Registro exitoso', data)
             } else {
-                console.log('Error de Registro', data.errors[0].msg)
-                alert(`${data.errors[0].msg}`);
+                toast.error('Error de Registro', data.errors[0].msg)
             }
 
         } catch (error) {
-            console.error('Error de conexión:', error);
+            toast.error('Error de conexión:', error);
         }
     }
 
@@ -80,11 +83,13 @@ function Register() {
 
 
     return (
-        <div className=" justify-content-center vh-100 bg-success bg-opacity-25" 
-        style={{
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}>
+        <>
+        <Toaster
+            toastOptions={{
+                className: "text-sm",
+            }}
+         />
+        <div className="bg-success bg-opacity-25">
             <nav className="navbar navbar-expand-lg bg-dark">
                 <div className="container">
                 <a className="navbar-brand" href="/">
@@ -93,7 +98,7 @@ function Register() {
                 {/* Botones alineados a la derecha */}
                 <div className="ms-auto">
                 
-                    <Link to="/contactenos" className="btn btn-outline-info">
+                    <Link to="/contactenos" className="btn btn-outline-secondary ms-3">
                     Contáctenos
                     </Link>
                     {/* Botón para alternar el modo claro/oscuro */}
@@ -103,88 +108,110 @@ function Register() {
                 </div>
                 </div>
             </nav>
-            <main className="form-signin d-flex justify-content-center m-5 p-5">
-                <form onSubmit={handleSubmit} className="w-25">
+            <main className="d-flex justify-content-center my-4">
+                <form onSubmit={handleSubmit} className="p-5 rounded-3 shadow-lg" style={{ maxWidth: '500px', width: '100%' }}>
+                    <h2 className="h4 mb-4 fw-bold text-center text-success">Crear Cuenta</h2>
+                    
+                    {/* Datos Personales */}
+                    <div className="form-group mb-3">
+                        <label htmlFor="floatingInput" className="form-label">Nombre*</label>
+                        <input
+                            type="text"
+                            className="form-control shadow-sm"
+                            id="floatingInput"
+                            placeholder="Ej. Juan"
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                        <h1 className="h3 mb-3 fw-normal text-center fw-bold">Registro</h1>
-                        <div className="form-floating mb-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="floatingInput"
-                                placeholder="name@example.com"
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            <label htmlFor="floatingInput">Nombre*</label>
-                        </div>
-                        <div className="form-floating mb-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="floatingInput1"
-                                placeholder="name@example.com"
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
-                            <label htmlFor="floatingInput">Apellido</label>
-                        </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="floatingInput1" className="form-label">Apellido</label>
+                        <input
+                            type="text"
+                            className="form-control shadow-sm"
+                            id="floatingInput1"
+                            placeholder="Ej. Pérez"
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                        <div className="form-floating mb-2">
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="floatingInput2"
-                                placeholder="name@example.com"
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <label htmlFor="floatingInput3">Email*</label>
-                        </div>
-                        <div className="form-floating mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="floatingPassword"
-                                placeholder="Password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <label htmlFor="floatingPassword">Contraseña*</label>
-                        </div>
-                        <div className="form-floating mb-2">
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="floatingPassword1"
-                                placeholder="Password"
-                                onChange={(e) => setConfirmPass(e.target.value)}
-                            />
-                            <label htmlFor="floatingPassword">Confirmar Contraseña*</label>
-                        </div>
-                        <div className="form-floating mb-2">
-                            <select className="form-control" id="securityQuestionSelect" onChange={(e) => setSelectedQuestion(e.target.value)} required>
-                                <option value="¿Cuál es el nombre de tu profesor favorito?">¿Cuál es el nombre de tu profesor favorito?</option>
-                                <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
-                                <option value="¿Cuál fue el modelo de tu primer automóvil?">¿Cuál fue el modelo de tu primer automóvil?</option>
-                                <option value="¿Cuál es el nombre de tu mejor amigo de la infancia?">¿Cuál es el nombre de tu mejor amigo de la infancia?</option>
-                                <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
-                            </select>
-                            <label htmlFor="securityQuestionSelect">Pregunta de Seguridad*</label>
-                        </div>
-                        <div className="form-floating mb-2">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="floatingInput5"
-                                placeholder=""
-                                onChange={(e) => setAnswer(e.target.value)}
-                            />
-                            <label htmlFor="floatingPassword">Respuesta de la pregunta de seguridad</label>
-                        </div>
-                        <br />
-                        <button className="btn btn-success w-100 py-2 fw-bold" type="submit">
-                            Registrarse
-                        </button>
-                    </form>
-                </main>
-            </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="floatingInput2" className="form-label">Correo Electrónico*</label>
+                        <input
+                            type="email"
+                            className="form-control shadow-sm"
+                            id="floatingInput2"
+                            placeholder="ejemplo@correo.com"
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Contraseña */}
+                    <div className="form-group mb-3">
+                        <label htmlFor="floatingPassword" className="form-label">Contraseña*</label>
+                        <input
+                            type="password"
+                            className="form-control shadow-sm"
+                            id="floatingPassword"
+                            placeholder="********"
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    
+                    <div className="form-group mb-3">
+                        <label htmlFor="floatingPassword1" className="form-label">Confirmar Contraseña*</label>
+                        <input
+                            type="password"
+                            className="form-control shadow-sm"
+                            id="floatingPassword1"
+                            placeholder="********"
+                            onChange={(e) => setConfirmPass(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Pregunta de Seguridad */}
+                    <div className="form-group mb-3">
+                        <label htmlFor="securityQuestionSelect" className="form-label">Pregunta de Seguridad*</label>
+                        <select 
+                            className="form-select shadow-sm" 
+                            id="securityQuestionSelect" 
+                            onChange={(e) => setSelectedQuestion(e.target.value)} 
+                            required
+                        >
+                            <option value="">Selecciona una pregunta...</option>
+                            <option value="¿Cuál es el nombre de tu profesor favorito?">¿Cuál es el nombre de tu profesor favorito?</option>
+                            <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                            <option value="¿Cuál fue el modelo de tu primer automóvil?">¿Cuál fue el modelo de tu primer automóvil?</option>
+                            <option value="¿Cuál es el nombre de tu mejor amigo de la infancia?">¿Cuál es el nombre de tu mejor amigo de la infancia?</option>
+                            <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                        </select>
+                    </div>
+
+                    <div className="form-group mb-4">
+                        <label htmlFor="floatingInput5" className="form-label">Respuesta a la Pregunta de Seguridad*</label>
+                        <input
+                            type="text"
+                            className="form-control shadow-sm"
+                            id="floatingInput5"
+                            placeholder="Ej. Rex"
+                            onChange={(e) => setAnswer(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Botón de Registro */}
+                    <button className="btn btn-success w-100 py-2 fw-bold" type="submit">Registrarse</button>
+                </form>
+                <br></br><br></br>
+            </main>
+            <br></br>
+        </div>
+    </>
     );
 };
 
