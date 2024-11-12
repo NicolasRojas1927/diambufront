@@ -7,6 +7,8 @@ import Contact from './Contact';
 import ForgetPassword from './ForgetPassword';
 import ParkDetail from './ParkDetail';
 import Admin from './admin';
+import Administrator from './administrator';
+
 
 function App() {
   return (
@@ -21,7 +23,8 @@ function App() {
           <Route path="/contactenos" element={<Contact />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/parque" element={<ParkDetail />} />
-          <Route path="/administrador" element={<Admin />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/administrator" element={<Administrator />} />
         </Routes>
       </Router>
 
