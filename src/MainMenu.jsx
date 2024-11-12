@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { Link, useNavigate  } from 'react-router-dom'; // Importa el componente Link para la navegación
+import { Link, useNavigate } from 'react-router-dom'; // Importa el componente Link para la navegación
+import { Maps } from './public/components/maps/Maps';
 
 const MainMenu = () => {
+  const [userLocation, setUserLocation] = useState(null);
   const [parks, setParks] = useState([]);
   const [theme, setTheme] = useState('light');
   const token = localStorage.getItem('token');
@@ -24,6 +26,26 @@ const MainMenu = () => {
       }
     };
     fetchParks();
+
+
+    // Comprobar si el navegador soporta la API de Geolocalización
+    if (navigator.geolocation) {
+      // Solicitar la ubicación del usuario
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error al obtener la ubicación:", error);
+        }
+      );
+    } else {
+      console.error("La geolocalización no es soportada por este navegador.");
+    }
+    console.log({ userLocation })
   }, []);
 
   // Cambia el tema cuando el valor de theme cambia
@@ -56,7 +78,7 @@ const MainMenu = () => {
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
-          {!token ? (
+            {!token ? (
               <>
                 <Link to="/login" className="btn btn-outline-primary me-2">
                   Login
@@ -82,6 +104,9 @@ const MainMenu = () => {
       </nav>
 
       <br />
+      <div className="container">
+        {userLocation ? <Maps userLocation={userLocation} /> : "Cargando ubicación..."}
+      </div>
 
       {/* Grid de contenido */}
       <div className="container">
@@ -96,9 +121,9 @@ const MainMenu = () => {
             />
           </div>
           <div className="col-md-6">
-            <h2 className="font-weight-bold">DIAMBUPARK</h2>
+            <h2 className="font-weight-bold">Diabupark</h2>
             <p style={{ textAlign: 'left' }}>
-            Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
+              Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
             </p>
           </div>
         </div>
