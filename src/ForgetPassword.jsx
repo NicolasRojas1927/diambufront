@@ -28,7 +28,7 @@ const ForgetPassword = () => {
       };
 
       try {
-          const response = await fetch('http://localhost:8080/api/auth/reset-password', {
+          const response = await fetch('https://diambupark-back.vercel.app/api/auth/reset-password', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',

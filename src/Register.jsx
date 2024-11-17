@@ -35,7 +35,7 @@ function Register() {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/users', {
+            const response = await fetch('hhttps://diambupark-back.vercel.app/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

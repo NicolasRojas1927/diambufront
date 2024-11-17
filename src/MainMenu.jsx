@@ -16,10 +16,11 @@ const MainMenu = () => {
   useEffect(() => {
     const fetchParks = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/parks?limit=20');
+        const response = await fetch('https://diambupark-back.vercel.app/api/parks?limit=20');
         const data = await response.json();
         if (data.ok) {
           setParks(data.parks); // Almacenar los parques en el estado
+          console.log(data.parks)
         }
       } catch (error) {
         console.error('Error al obtener parques:', error);
@@ -104,9 +105,6 @@ const MainMenu = () => {
       </nav>
 
       <br />
-      <div className="container">
-        {userLocation ? <Maps userLocation={userLocation} /> : "Cargando ubicación..."}
-      </div>
 
       {/* Grid de contenido */}
       <div className="container">
@@ -173,6 +171,12 @@ const MainMenu = () => {
               </div>
             ))}
           </div>
+        </div>
+        <br />
+        <div className="container">
+          {userLocation ?
+            parks.length > 0 ? <Maps parks={parks} userLocation={userLocation} /> : "No se ha encontrado una lista de parques"
+            : "El usuario deniega el acceso a la geolocalización..."}
         </div>
         <br /><br /><br /><br />
 
