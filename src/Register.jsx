@@ -1,9 +1,9 @@
 "use client"
 import { useState, useEffect } from 'react';
+import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './custom.css';
-import './sign-in.css';
-import { Link, useNavigate } from 'react-router-dom'; // Para redirigir al MainMenu
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { Link } from 'react-router-dom'; // Para redirigir al MainMenu
 import toast, { Toaster } from 'react-hot-toast';
 
 function Register() {
@@ -62,25 +62,16 @@ function Register() {
         }
     }
 
-    const RegisterData = {
-        name: name,
-        lastname: lastname,
-        email: email,
-        password: password,
-        confirmpass: confirmpass,
-        question: selectedQuestion,
-        answer: answer
-    };
 
     // Cambia el tema cuando el valor de theme cambia
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
 
-  // Alterna entre los temas claro y oscuro
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+    // Alterna entre los temas claro y oscuro
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+    };
 
 
 

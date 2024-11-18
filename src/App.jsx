@@ -6,6 +6,9 @@ import Register from './Register';
 import Contact from './Contact';
 import ForgetPassword from './ForgetPassword';
 import ParkDetail from './ParkDetail';
+import Admin from './admin';
+import Administrator from './administrator';
+
 import Dashboard from './dashboard/Dashboard';
 
 function App() {
@@ -26,6 +29,8 @@ function App() {
           <Route path="/contactenos" element={<Contact />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/parque" element={<ParkDetail />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/administrator" element={<Administrator />} />
 
 
           {/* Ruta Protegida para el Dashboard */}
