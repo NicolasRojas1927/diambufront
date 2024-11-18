@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
 
 export const Contacts = () => {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage.getItem('token');
     const [contacts, setContacts] = useState([]);
+    const role = localStorage.getItem('role');
+
+    const urlApi = `https://diambupark-back.vercel.app/api/contacts${role == "USER_ROLE" ? '/user' : ''}?limit=20`;
 
     useEffect(() => {
         const fetchParks = async () => {
             try {
 
-                const response = await fetch('https://diambupark-back.vercel.app/api/contacts?limit=20', {
+                const response = await fetch(urlApi, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json', 
+                        'Content-Type': 'application/json',
                         'x-token': token,
-                },});
+                    },
+                });
 
                 const data = await response.json();
                 if (data.ok) {
@@ -38,7 +42,7 @@ export const Contacts = () => {
                 <table className="table table-hover table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Responder</th>
+                            {role == "ADMIN_ROLE" ? (<th scope="col">Responder</th>) : null}
                             <th scope="col">Estado</th>
                             <th scope="col">Titulo</th>
                             <th scope="col">Mensaje</th>
@@ -52,7 +56,11 @@ export const Contacts = () => {
                             contacts.length > 0 ?
                                 contacts.map(({ title, message, _id, response, responseStatus }) => (
                                     <tr key={_id}>
-                                        <td><button className={`btn btn-sm ${responseStatus === 'pendiente' ? 'btn-danger' : 'btn-success'}`}>Respuesta</button></td>
+                                        {
+                                            role == "ADMIN_ROLE"
+                                                ? (<td><button className={`btn btn-sm ${responseStatus === 'pendiente' ? 'btn-danger' : 'btn-success'}`}>Respuesta</button></td>)
+                                                : null
+                                        }
                                         <td className={responseStatus == "pendiente" ? "text-danger" : "text-success"}>{responseStatus}</td>
                                         <td>{title}</td>
                                         <td>{message}</td>

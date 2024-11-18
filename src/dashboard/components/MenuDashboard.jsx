@@ -28,41 +28,46 @@ export const MenuDashboard = () => {
                                 Inicio
                             </Link>
                         </li>
-
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Parques
-                            </a>
-                            <ul className="dropdown-menu bg-dark text-white" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <Link to="actividades" className="dropdown-item text-white">
-                                        Actividades
-                                    </Link>
-                                </li>
-                                <li><hr className="dropdown-divider  text-white" /></li>
-                                <li>
-                                    <Link to="localidades" className="dropdown-item text-white">
-                                        Localidades
-                                    </Link>
-                                </li>
-                                <li><hr className="dropdown-divider text-white" /></li>
-                                <li>
-                                    <Link to="parques" className="dropdown-item text-white">
+                        {role === "ADMIN_ROLE" ? (
+                            <>
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Parques
+                                    </a>
+                                    <ul className="dropdown-menu bg-dark text-white" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <Link to="actividades" className="dropdown-item text-white">
+                                                Actividades
+                                            </Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider  text-white" /></li>
+                                        <li>
+                                            <Link to="localidades" className="dropdown-item text-white">
+                                                Localidades
+                                            </Link>
+                                        </li>
+                                        <li><hr className="dropdown-divider text-white" /></li>
+                                        <li>
+                                            <Link to="parques" className="dropdown-item text-white">
+                                                Parques
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li className="nav-item">
+                                    <Link to="usuarios" className="nav-link active">
+                                        Usuarios
                                     </Link>
                                 </li>
-                            </ul>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="calificaciones" className="nav-link active">
-                                Calificaciones
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="usuarios" className="nav-link active">
-                                Usuarios
-                            </Link>
-                        </li>
+                                <li className="nav-item">
+                                    <Link to="calificaciones" className="nav-link active">
+                                        Calificaciones
+                                    </Link>
+                                </li>
+                            </>)
+                            : null
+                        }
                         <li className="nav-item">
                             <Link to="mensajes" className="nav-link active">
                                 Mensajes

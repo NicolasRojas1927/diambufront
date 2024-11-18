@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css';
 import './sign-in.css';
-import { Link } from 'react-router-dom'; // Para redirigir al MainMenu
+import { Link, useNavigate } from 'react-router-dom'; // Para redirigir al MainMenu
 import toast, { Toaster } from 'react-hot-toast';
 
 function Register() {
@@ -15,6 +15,7 @@ function Register() {
     const [answer, setAnswer] = useState('');
     const [selectedQuestion, setSelectedQuestion] = useState('');
     const [theme, setTheme] = useState('light');
+    const navigate = useNavigate();  // Hook para redirigir
 
     const sendSuccess = (message) => toast.success(message);
 
@@ -51,6 +52,7 @@ function Register() {
             if (response.ok) {
                 sendSuccess('Registro exitoso')
                 console.log('Registro exitoso', data)
+                navigate('/login');
             } else {
                 toast.error('Error de Registro', data.errors[0].msg)
             }
