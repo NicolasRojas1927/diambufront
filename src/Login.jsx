@@ -44,15 +44,14 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        sendSuccess("Bienvenido");
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('name', data.user.name);
+        localStorage.setItem('role', data.user.role);
         localStorage.setItem('email', data.user.email);
+        localStorage.setItem('token', data.token);
         localStorage.setItem('question', data.user.question);
         localStorage.setItem('answer', data.user.answer);
         console.log(data)
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
+        navigate('/dashboard');
       } else {
         toast.error("Usuario o Contraseña Incorrectos");
       }

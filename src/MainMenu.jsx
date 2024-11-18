@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { Link, useNavigate  } from 'react-router-dom'; // Importa el componente Link para la navegación
+import { Link, useNavigate } from 'react-router-dom'; // Importa el componente Link para la navegación
+import { Maps } from './public/components/maps/Maps';
 
 const MainMenu = () => {
+  const [userLocation, setUserLocation] = useState(null);
   const [parks, setParks] = useState([]);
   const [theme, setTheme] = useState('light');
   const token = localStorage.getItem('token');
@@ -18,12 +20,33 @@ const MainMenu = () => {
         const data = await response.json();
         if (data.ok) {
           setParks(data.parks); // Almacenar los parques en el estado
+          console.log(data.parks)
         }
       } catch (error) {
         console.error('Error al obtener parques:', error);
       }
     };
     fetchParks();
+
+
+    // Comprobar si el navegador soporta la API de Geolocalización
+    if (navigator.geolocation) {
+      // Solicitar la ubicación del usuario
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error al obtener la ubicación:", error);
+        }
+      );
+    } else {
+      console.error("La geolocalización no es soportada por este navegador.");
+    }
+    console.log({ userLocation })
   }, []);
 
   // Cambia el tema cuando el valor de theme cambia
@@ -56,7 +79,7 @@ const MainMenu = () => {
           </a>
           {/* Botones alineados a la derecha */}
           <div className="ms-auto">
-          {!token ? (
+            {!token ? (
               <>
                 <Link to="/login" className="btn btn-outline-secondary ms-3">
                   Login
@@ -85,14 +108,20 @@ const MainMenu = () => {
 
       {/* Grid de contenido */}
       <div className="container">
-        <div className="row my-5 text-center">
-            <div className="col-md-6 d-flex flex-column align-items-center">
-              <img className="mb-4 shadow rounded-circle" src="../src/img/logoSF.webp" alt="Diambupark Logo" style={{ width: '150px', height: '150px' }} />
-              <h2 className="font-weight-bold">DIAMBUPARK</h2>
-            </div>
-            <div className="col-md-6 text-left">
-              <p className="lead ">
-            Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
+        <div className="row text-center">
+          <div className="col-md-6">
+            <img
+              className="mb-4"
+              src="../src/img/logoSF.webp"
+              alt=""
+              width="380"
+              height="300"
+            />
+          </div>
+          <div className="col-md-6">
+            <h2 className="font-weight-bold">Diabupark</h2>
+            <p style={{ textAlign: 'left' }}>
+              Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
             </p>
           </div>
         </div>
@@ -169,7 +198,12 @@ const MainMenu = () => {
               ))}
           </div>
         </div>
-
+        <br />
+        <div className="container">
+          {userLocation ?
+            parks.length > 0 ? <Maps parks={parks} userLocation={userLocation} /> : "No se ha encontrado una lista de parques"
+            : "El usuario deniega el acceso a la geolocalización..."}
+        </div>
         <br /><br /><br /><br />
 
       </div>
