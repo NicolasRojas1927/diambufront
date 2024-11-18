@@ -137,6 +137,7 @@ const ParkDetail = () => {
                       <h2 className="font-weight-bold">{park.name || "Parque"}</h2>
                       <p><i className="fas fa-map-marker-alt text-danger"></i> {park.address || "Dirección no disponible"}</p>
                       <p>{park.description || "Descripción no disponible"}</p>
+                      <p><i className="fas fa-star"></i> {park.rating || 0} Estrellas</p>
                       <p ><i className="fas fa-globe"></i> Latitud: {park.latitude || "No disponible"}</p>
                       <p><i className="fas fa-globe"></i> Longitud: {park.longitude || "No disponible"}</p>
                       <p><i className="fas fa-city"></i> Localidad: {park.locality?.name || "No disponible"}</p>
