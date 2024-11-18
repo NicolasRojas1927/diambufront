@@ -60,25 +60,16 @@ function Register() {
         }
     }
 
-    const RegisterData = {
-        name: name,
-        lastname: lastname,
-        email: email,
-        password: password,
-        confirmpass: confirmpass,
-        question: selectedQuestion,
-        answer: answer
-    };
 
     // Cambia el tema cuando el valor de theme cambia
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
 
-  // Alterna entre los temas claro y oscuro
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+    // Alterna entre los temas claro y oscuro
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+    };
 
 
 
