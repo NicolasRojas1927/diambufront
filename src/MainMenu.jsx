@@ -119,7 +119,7 @@ const MainMenu = () => {
             />
           </div>
           <div className="col-md-6">
-            <h2 className="font-weight-bold">Diabupark</h2>
+            <h2 className="font-weight-bold">Diambupark</h2>
             <p style={{ textAlign: 'left' }}>
               Diambupark es una aplicación en la nube que proporciona información acertada sobre los parques de Bogotá, facilitando la búsqueda de espacios para actividades al aire libre. La plataforma ofrece detalles sobre cada parque, incluyendo horarios, y eventos disponibles, ayudando a los usuarios a encontrar opciones recreativas que se ajusten a sus preferencias. Con mapas interactivos, seguridad y recomendaciones basadas en la ubicación, Diambupark asegura que los visitantes siempre tengan a mano la mejor opción para disfrutar de los parques de la ciudad.
             </p>
