@@ -1,8 +1,8 @@
 "use client"
 import { useState, useEffect } from 'react';
+import './custom.css'; // Importa el archivo de estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './custom.css';
-import './sign-in.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { Link } from 'react-router-dom'; // Para redirigir al MainMenu
 import toast, { Toaster } from 'react-hot-toast';
 
